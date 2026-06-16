@@ -120,8 +120,8 @@ def show_page():
                     processed_face = preprocess_face(face_crop)
                     predictions = model.predict(processed_face, verbose=0)
                     
-                    predicted_age = int(np.round(predictions[1][0]))
-                    gender_prob = predictions[0][0]
+                    predicted_age = int(np.round(np.array(predictions[1]).item()))
+                    gender_prob = np.array(predictions[0]).item()
                     predicted_gender = "Female" if gender_prob > 0.5 else "Male"
                     
                     is_senior = predicted_age > 60

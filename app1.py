@@ -86,8 +86,8 @@ def preprocess_image(uploaded_image):
 def predict_age_gender(model, image_array):
     try:
         predictions = model.predict(image_array)
-        predicted_age = int(np.round(predictions[1][0]))
-        gender_prob = predictions[0][0]
+        predicted_age = int(np.round(np.array(predictions[1]).item()))
+        gender_prob = np.array(predictions[0]).item()
         predicted_gender = "Female" if gender_prob > 0.5 else "Male"
         gender_confidence = (
             gender_prob if predicted_gender == "Female" else 1 - gender_prob

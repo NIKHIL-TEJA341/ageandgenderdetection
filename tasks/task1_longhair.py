@@ -85,8 +85,8 @@ def show_page():
                         processed_ag = preprocess_image_age_gender(image)
                         try:
                             predictions = age_gender_model.predict(processed_ag)
-                            predicted_age = int(np.round(predictions[1][0]))
-                            gender_prob = predictions[0][0]
+                            predicted_age = int(np.round(np.array(predictions[1]).item()))
+                            gender_prob = np.array(predictions[0]).item()
                             original_gender = "Female" if gender_prob > 0.5 else "Male"
                         except Exception as e:
                             col2.error(f"Error during age/gender prediction: {e}")
@@ -96,7 +96,7 @@ def show_page():
                         if has_hair_model:
                             processed_hair = preprocess_image_hair(image)
                             try:
-                                hair_pred = hair_model.predict(processed_hair)[0][0]
+                                hair_pred = np.array(hair_model.predict(processed_hair)).item()
                                 hair_length = "Long" if hair_pred < 0.5 else "Short"
                             except Exception as e:
                                 col2.error(f"Error during hair prediction: {e}")
