@@ -53,7 +53,7 @@ def process_image(image_np, model):
                     cv2.rectangle(output_image, (x1, y1), (x2, y2), (0, 255, 0), 2)
                     cv2.putText(output_image, "Person", (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
                     
-                elif cls in [2, 3, 5, 7]:  # car, motorcycle, bus, truck
+                elif cls in [2, 3, 5, 7]: 
                     car_count += 1
                     
                     car_roi = image_np[y1:y2, x1:x2]
@@ -66,7 +66,7 @@ def process_image(image_np, model):
                             color = (255, 0, 0) 
                             label = "Blue Car"
                         else:
-                            # Other cars -> Blue rectangle (RGB: 0, 0, 255)
+                        
                             color = (0, 0, 255)
                             label = "Other Car"
                             

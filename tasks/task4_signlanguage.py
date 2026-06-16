@@ -22,16 +22,15 @@ def count_fingers_and_detect_sign(image_np):
     if len(contours) == 0:
         return "No Hand Detected", image_np
         
-    # Get largest contour (assume it's the hand)
     cnt = max(contours, key=lambda x: cv2.contourArea(x))
     
     if cv2.contourArea(cnt) < 3000:
         return "No Hand Detected", image_np
         
-    # Draw contour
+
     cv2.drawContours(image_np, [cnt], -1, (0, 255, 0), 2)
     
-    # Find convex hull and defects
+  
     hull_points = cv2.convexHull(cnt)
     cv2.drawContours(image_np, [hull_points], -1, (255, 0, 0), 2)
     
@@ -48,13 +47,11 @@ def count_fingers_and_detect_sign(image_np):
                 end = tuple(cnt[e][0])
                 far = tuple(cnt[f][0])
                 
-                # Cosine rule to find angle of the defect
                 a = np.sqrt((end[0] - start[0])**2 + (end[1] - start[1])**2)
                 b = np.sqrt((far[0] - start[0])**2 + (far[1] - start[1])**2)
                 c = np.sqrt((end[0] - far[0])**2 + (end[1] - far[1])**2)
                 angle = np.arccos((b**2 + c**2 - a**2) / (2*b*c)) * 57.2958
                 
-                # If angle <= 90 it means it's a gap between fingers
                 if angle <= 90:
                     count += 1
                     cv2.circle(image_np, far, 5, [0, 0, 255], -1)
